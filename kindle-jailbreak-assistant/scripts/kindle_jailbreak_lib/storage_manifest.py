@@ -16,6 +16,7 @@ from .storage_safety import (
     RootReference,
     SafeRootHandle,
     StorageError,
+    inspect_path,
     lexical_path,
 )
 
@@ -85,7 +86,13 @@ class CreatedFilesJournal:
             "device": observed.device,
             "inode": observed.inode,
             "mode": observed.mode,
+            "modified_ns": observed.modified_ns,
+            "changed_ns": observed.changed_ns,
         }
+        self._refresh_created_directory_ancestors(
+            payload,
+            observed.relative.parent,
+        )
         self._persist(payload)
 
     def mark_deleting(
@@ -139,6 +146,10 @@ class CreatedFilesJournal:
             "modified_ns": observed.modified_ns,
             "changed_ns": observed.changed_ns,
         }
+        self._refresh_created_directory_ancestors(
+            payload,
+            Path(entry["path"]).parent,
+        )
         self._persist(payload)
 
     def retain_deleting(self, nonce: str) -> None:
@@ -209,6 +220,41 @@ class CreatedFilesJournal:
         state.created_files = [str(entry["path"]) for entry in payload["entries"]]
         self.store.save(state)
 
+    def _refresh_created_directory_ancestors(
+        self,
+        payload: dict[str, Any],
+        parent: Path,
+    ) -> None:
+        ancestor_keys: set[str] = set()
+        cursor = parent
+        while cursor != Path():
+            ancestor_keys.add(cursor.as_posix())
+            cursor = cursor.parent
+        for candidate in payload["entries"]:
+            if (
+                candidate.get("state") != "created"
+                or candidate.get("type") != "directory"
+                or candidate.get("path") not in ancestor_keys
+            ):
+                continue
+            relative = Path(candidate["path"])
+            current = inspect_path(self.root, relative)
+            identity = candidate.get("created_identity")
+            if (
+                current is None
+                or current.kind != "directory"
+                or not isinstance(identity, dict)
+                or identity.get("device") != current.device
+                or identity.get("inode") != current.inode
+                or identity.get("mode") != current.mode
+            ):
+                raise StorageError(
+                    "KJA_OWNERSHIP_AMBIGUOUS",
+                    "父目录无法证明为本会话创建的同一对象",
+                )
+            identity["modified_ns"] = current.modified_ns
+            identity["changed_ns"] = current.changed_ns
+
     def _validate_entry(self, entry: object) -> None:
         if not isinstance(entry, dict):
             raise StorageError("KJA_JOURNAL_INVALID", "创建文件日志条目无效")
@@ -224,9 +270,14 @@ class CreatedFilesJournal:
         self._validate_expected(entry_type, entry.get("size"), entry.get("sha256"))
         if entry.get("state") in {"created", "deleting", "tombstone"}:
             identity = entry.get("created_identity")
-            if not isinstance(identity, dict) or set(identity) != {
-                "device", "inode", "mode",
-            }:
+            valid_identity_fields = (
+                {"device", "inode", "mode"},
+                {"device", "inode", "mode", "modified_ns", "changed_ns"},
+            )
+            if (
+                not isinstance(identity, dict)
+                or set(identity) not in valid_identity_fields
+            ):
                 raise StorageError("KJA_JOURNAL_INVALID", "创建日志缺少初始对象身份")
 
     def _validate_relative(self, relative: Path) -> str:
@@ -270,6 +321,8 @@ class CreatedFilesJournal:
             identity.get("device") != observed.device
             or identity.get("inode") != observed.inode
             or identity.get("mode") != observed.mode
+            or identity.get("modified_ns") != observed.modified_ns
+            or identity.get("changed_ns") != observed.changed_ns
         ):
             raise StorageError(
                 "KJA_OWNERSHIP_AMBIGUOUS",

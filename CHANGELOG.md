@@ -21,7 +21,7 @@ All notable changes to KJA are documented here. The project follows
 - One-time, operation-specific write authorization and fresh OTA gates.
 - Method-specific jailbreak evidence and visible KOReader launch checkpoints.
 - Exact cleanup based on a session-owned creation journal.
-- 214 automated tests plus an offline four-part CLI self-test.
+- 215 automated tests plus an offline four-part CLI self-test.
 - English and Simplified Chinese public documentation, CI, and Issue forms.
 
 ### Known limitations

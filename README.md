@@ -155,7 +155,7 @@ python3 -m compileall -q kindle-jailbreak-assistant/scripts
 bash -n kindle-jailbreak-assistant/scripts/kindle_mtp_linux.sh
 ```
 
-The initial public release contains 214 passing automated tests on the author's
+The initial public release contains 215 passing automated tests on the author's
 macOS/Python 3.11 environment. Five Windows PowerShell tests are skipped locally
 when `pwsh` is unavailable. GitHub Actions is configured to run the suite on
 Linux and macOS, plus the cross-platform and Windows-specific suites on Windows.

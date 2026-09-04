@@ -140,7 +140,7 @@ python3 -m compileall -q kindle-jailbreak-assistant/scripts
 bash -n kindle-jailbreak-assistant/scripts/kindle_mtp_linux.sh
 ```
 
-首次公开版本在作者的 macOS／Python 3.11 环境中有 214 项自动化测试通过。本机
+首次公开版本在作者的 macOS／Python 3.11 环境中有 215 项自动化测试通过。本机
 没有 `pwsh` 时会跳过 5 项 Windows PowerShell 测试。GitHub Actions 已配置为在
 Linux 和 macOS 上运行完整套件，并在 Windows 上运行跨平台核心与 Windows 专属
 套件。模拟验证和 CI 仍然不能等同于“所有 Kindle 真机都验证过”。

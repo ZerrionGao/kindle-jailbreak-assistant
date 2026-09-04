@@ -34,12 +34,12 @@ KJA 在运行时读取当前上游数据。本页只说明仓库自身实际验�
 | Windows | USB mass storage | PowerShell volume fixtures and Windows-specific storage safety tests | Simulated; physical validation pending |
 | Windows | MTP | Portable-device adapter, duplicate-name, stable-identity, copy completion, and simulated CLI tests | CI-capable; physical validation pending |
 
-The local 2026-09-04 release audit ran 214 tests successfully. Five Windows
+The local 2026-09-04 release audit ran 215 tests successfully. Five Windows
 PowerShell fixture tests were skipped because `pwsh` was not installed on the
 author's macOS host. The CI matrix is intended to run those tests on Windows;
 this statement should be updated after the first public workflow completes.
 
-2026-09-04 的本地发布审计共通过 214 项测试。由于作者的 macOS 主机没有安装
+2026-09-04 的本地发布审计共通过 215 项测试。由于作者的 macOS 主机没有安装
 `pwsh`，其中 5 项 Windows PowerShell 测试被跳过。CI 矩阵会在 Windows 上运行
 这些测试；首次公开工作流完成后应更新本段状态。
 

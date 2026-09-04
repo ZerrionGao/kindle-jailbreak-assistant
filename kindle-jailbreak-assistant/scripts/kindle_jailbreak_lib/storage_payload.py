@@ -690,6 +690,8 @@ def _assert_created_identity(
         identity.get("device") != observed.device
         or identity.get("inode") != observed.inode
         or identity.get("mode") != observed.mode
+        or identity.get("modified_ns") != observed.modified_ns
+        or identity.get("changed_ns") != observed.changed_ns
     ):
         raise safety.StorageError(
             "KJA_OWNERSHIP_AMBIGUOUS",

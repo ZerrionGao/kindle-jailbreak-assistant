@@ -127,6 +127,8 @@ class StorageTest(unittest.TestCase):
                     "device": metadata.st_dev,
                     "inode": metadata.st_ino,
                     "mode": stat.S_IFMT(metadata.st_mode),
+                    "modified_ns": metadata.st_mtime_ns,
+                    "changed_ns": metadata.st_ctime_ns,
                 }
             normalized_entries.append(entry)
         (store.root / "created-files.json").write_text(
@@ -1578,10 +1580,45 @@ class StorageTest(unittest.TestCase):
                     "device": original.st_dev,
                     "inode": original.st_ino,
                     "mode": stat.S_IFMT(original.st_mode),
+                    "modified_ns": original.st_mtime_ns,
+                    "changed_ns": original.st_ctime_ns,
                 },
             }])
             target.unlink()
             target.write_bytes(b"same-data")
+
+            with self.assertRaises(ValueError) as caught:
+                cleanup_created_files(device, store, device_probe=lambda: device)
+
+            self.assertEqual(
+                getattr(caught.exception, "code", None),
+                "KJA_OWNERSHIP_AMBIGUOUS",
+            )
+            self.assertEqual(target.read_bytes(), b"same-data")
+
+    def test_cleanup_rejects_matching_inode_with_different_creation_time(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            kindle = self._make_kindle(base)
+            store, device = self._make_session(base, kindle)
+            target = kindle / "temporary.bin"
+            target.write_bytes(b"same-data")
+            current = target.stat()
+            self._write_created_journal(store, kindle, [{
+                "path": "temporary.bin",
+                "type": "file",
+                "state": "created",
+                "size": 9,
+                "sha256": hashlib.sha256(b"same-data").hexdigest(),
+                "ownership_nonce": "timestamp-owner",
+                "created_identity": {
+                    "device": current.st_dev,
+                    "inode": current.st_ino,
+                    "mode": stat.S_IFMT(current.st_mode),
+                    "modified_ns": current.st_mtime_ns - 1,
+                    "changed_ns": current.st_ctime_ns - 1,
+                },
+            }])
 
             with self.assertRaises(ValueError) as caught:
                 cleanup_created_files(device, store, device_probe=lambda: device)
@@ -1611,6 +1648,8 @@ class StorageTest(unittest.TestCase):
                     "device": original.st_dev,
                     "inode": original.st_ino,
                     "mode": stat.S_IFMT(original.st_mode),
+                    "modified_ns": original.st_mtime_ns,
+                    "changed_ns": original.st_ctime_ns,
                 },
             }])
             target.rmdir()
@@ -1848,6 +1887,8 @@ class StorageTest(unittest.TestCase):
                     "device": metadata.st_dev,
                     "inode": metadata.st_ino,
                     "mode": stat.S_IFMT(metadata.st_mode),
+                    "modified_ns": metadata.st_mtime_ns,
+                    "changed_ns": metadata.st_ctime_ns,
                 },
             }])
             from kindle_jailbreak_lib import storage_safety
@@ -1891,6 +1932,8 @@ class StorageTest(unittest.TestCase):
                     "device": metadata.st_dev,
                     "inode": metadata.st_ino,
                     "mode": stat.S_IFMT(metadata.st_mode),
+                    "modified_ns": metadata.st_mtime_ns,
+                    "changed_ns": metadata.st_ctime_ns,
                 },
             }])
             from kindle_jailbreak_lib import storage_safety
@@ -2145,6 +2188,8 @@ class StorageTest(unittest.TestCase):
                     "device": metadata.st_dev,
                     "inode": metadata.st_ino,
                     "mode": stat.S_IFMT(metadata.st_mode),
+                    "modified_ns": metadata.st_mtime_ns,
+                    "changed_ns": metadata.st_ctime_ns,
                 },
             }])
 

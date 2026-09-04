@@ -844,29 +844,84 @@ def quarantine_move(
             quarantine_directory,
             quarantine_name,
         )
-    with _borrow_root(root) as root_fd:
-        source_parent = _open_directory_chain(root_fd, expected.relative.parts[:-1])
-        quarantine_fd = _open_directory_chain(root_fd, quarantine_directory.parts)
-        try:
-            _rename_at(
-                expected.relative.name,
-                quarantine_name,
-                source_parent,
-                quarantine_fd,
+    source_descriptor: int | None = None
+    try:
+        with _borrow_root(root) as root_fd:
+            source_parent = _open_directory_chain(
+                root_fd,
+                expected.relative.parts[:-1],
             )
-            os.fsync(source_parent)
-            os.fsync(quarantine_fd)
-        finally:
-            os.close(source_parent)
-            os.close(quarantine_fd)
-    moved = inspect_path(root, quarantine_relative)
-    if moved is None or not _same_snapshot_identity(expected, moved):
-        _restore_quarantine(root, expected.relative, quarantine_relative)
-        raise StorageError(
-            "KJA_OWNERSHIP_AMBIGUOUS",
-            "隔离后的对象与已记录所有权不一致，已恢复并停止",
+            quarantine_fd = _open_directory_chain(
+                root_fd,
+                quarantine_directory.parts,
+            )
+            try:
+                before = os.stat(
+                    expected.relative.name,
+                    dir_fd=source_parent,
+                    follow_symlinks=False,
+                )
+                if not expected.matches(before):
+                    raise StorageError(
+                        "KJA_OWNERSHIP_AMBIGUOUS",
+                        "隔离前的对象与已记录所有权不一致",
+                    )
+                if expected.kind == "file" and stat.S_ISREG(before.st_mode):
+                    source_descriptor = _open_file_at(
+                        source_parent,
+                        expected.relative.name,
+                        before,
+                    )
+                elif expected.kind == "directory" and stat.S_ISDIR(before.st_mode):
+                    source_descriptor = _open_directory_at(
+                        source_parent,
+                        expected.relative.name,
+                        before,
+                    )
+                else:
+                    raise StorageError(
+                        "KJA_OWNERSHIP_AMBIGUOUS",
+                        "隔离前的对象类型与已记录所有权不一致",
+                    )
+                opened = os.fstat(source_descriptor)
+                if not expected.matches(opened):
+                    raise StorageError(
+                        "KJA_OWNERSHIP_AMBIGUOUS",
+                        "隔离前打开的对象与已记录所有权不一致",
+                    )
+                _rename_at(
+                    expected.relative.name,
+                    quarantine_name,
+                    source_parent,
+                    quarantine_fd,
+                )
+                os.fsync(source_parent)
+                os.fsync(quarantine_fd)
+            finally:
+                os.close(source_parent)
+                os.close(quarantine_fd)
+        retained = os.fstat(source_descriptor)
+        moved = inspect_path(root, quarantine_relative)
+        retained_identity_matches = (
+            moved is not None
+            and moved.device == retained.st_dev
+            and moved.inode == retained.st_ino
+            and moved.mode == stat.S_IFMT(retained.st_mode)
         )
-    return moved
+        if (
+            moved is None
+            or not retained_identity_matches
+            or not _same_snapshot_identity(expected, moved)
+        ):
+            _restore_quarantine(root, expected.relative, quarantine_relative)
+            raise StorageError(
+                "KJA_OWNERSHIP_AMBIGUOUS",
+                "隔离后的对象与已记录所有权不一致，已恢复并停止",
+            )
+        return moved
+    finally:
+        if source_descriptor is not None:
+            os.close(source_descriptor)
 
 
 def delete_quarantined(
