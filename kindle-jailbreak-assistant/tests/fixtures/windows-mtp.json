@@ -1,0 +1,89 @@
+{
+  "poll_interval_ms": 0,
+  "max_polls": 4,
+  "devices": [
+    {
+      "fixture_tag": "system-disk",
+      "instance_id": "USB\\VID_1949&PID_9981\\SYSTEM-DISK&0",
+      "interface_class_guid": "{6AC27878-A6FA-4155-BA85-F98F491D4F33}",
+      "is_file_system": true,
+      "name": "Kindle System Disk",
+      "expand_error": true
+    },
+    {
+      "fixture_tag": "bad-portable",
+      "instance_id": "USB\\VID_1949&PID_9981\\BAD-PORTABLE&0",
+      "interface_class_guid": "{6AC27878-A6FA-4155-BA85-F98F491D4F33}",
+      "is_file_system": false,
+      "name": "Kindle Unavailable",
+      "expand_error": true
+    },
+    {
+      "fixture_tag": "kindle-one",
+      "instance_id": "USB\\VID_1949&PID_9981\\B0D4A1C200000001&0",
+      "interface_class_guid": "{6AC27878-A6FA-4155-BA85-F98F491D4F33}",
+      "is_file_system": false,
+      "name": "Kindle Scribe",
+      "firmware": "5.16.2.1.1",
+      "storages": [
+        {
+          "name": "Internal Storage",
+          "folders": ["documents", "system"],
+          "files": {"documents/existing.bin": 7, "system/version.txt": 28},
+          "free_bytes": 424242
+        }
+      ],
+      "copy_to": {
+        "documents/payload.bin": {"states": [null, 7]},
+        "documents/slow-large.bin": {
+          "states": [1048576, 2097152, 3145728, 4194304]
+        },
+        "documents/stalled.bin": {
+          "states": [1048576, 1048576, 1048576, 1048576]
+        },
+        "documents/large-complete.bin": {
+          "states": [33554432, 67108864]
+        }
+      },
+      "copy_from": {
+        "documents/existing.bin": {"states": [null, 7]}
+      }
+    },
+    {
+      "fixture_tag": "kindle-two",
+      "instance_id": "USB\\VID_1949&PID_9981\\B0D4A1C200000002&0",
+      "interface_class_guid": "{6AC27878-A6FA-4155-BA85-F98F491D4F33}",
+      "is_file_system": false,
+      "name": "Kindle Scribe",
+      "firmware": "5.16.3",
+      "storages": [
+        {
+          "name": "Internal Storage",
+          "folders": ["documents"],
+          "files": {},
+          "free_bytes": 313131
+        }
+      ]
+    },
+    {
+      "fixture_tag": "ordinary-usb",
+      "instance_id": "USBSTOR\\DISK&VEN_KINDLE\\MASS-STORAGE&0",
+      "interface_class_guid": "{53F56307-B6BF-11D0-94F2-00A0C91EFB8B}",
+      "is_file_system": true,
+      "name": "Kindle USB Drive",
+      "storages": [
+        {"name": "Kindle", "folders": ["documents"], "files": {}}
+      ]
+    },
+    {
+      "fixture_tag": "no-documents",
+      "instance_id": "USB\\VID_1949&PID_9981\\NO-DOCUMENTS&0",
+      "interface_class_guid": "{6AC27878-A6FA-4155-BA85-F98F491D4F33}",
+      "is_file_system": false,
+      "name": "Kindle Without Documents",
+      "storages": [
+        {"name": "Internal Storage", "folders": ["books"], "files": {}}
+      ]
+    }
+  ]
+}

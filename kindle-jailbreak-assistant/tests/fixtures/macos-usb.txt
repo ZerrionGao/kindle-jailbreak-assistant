@@ -1,0 +1,57 @@
+--- DISKUTIL LIST ---
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>AllDisksAndPartitions</key>
+  <array>
+    <dict>
+      <key>DeviceIdentifier</key><string>disk7</string>
+      <key>Partitions</key>
+      <array>
+        <dict>
+          <key>DeviceIdentifier</key><string>disk7s1</string>
+          <key>MountPoint</key><string>{ROOT}</string>
+          <key>VolumeName</key><string>Kindle</string>
+        </dict>
+      </array>
+    </dict>
+  </array>
+</dict>
+</plist>
+--- DISKUTIL INFO ---
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>DeviceIdentifier</key><string>disk7s1</string>
+  <key>ParentWholeDisk</key><string>disk7</string>
+  <key>MountPoint</key><string>{ROOT}</string>
+  <key>VolumeName</key><string>Kindle</string>
+  <key>BusProtocol</key><string>USB</string>
+  <key>Internal</key><false/>
+  <key>Ejectable</key><true/>
+  <key>ReadOnlyVolume</key><false/>
+  <key>VolumeFreeSpace</key><integer>987654321</integer>
+</dict>
+</plist>
+--- IOREG ---
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+  <dict>
+    <key>IOObjectClass</key><string>IOUSBHostDevice</string>
+    <key>USB Product Name</key><string>Kindle Paperwhite</string>
+    <key>USB Serial Number</key><string>G090KB0TESTX05TK</string>
+    <key>USB Vendor Name</key><string>Amazon</string>
+    <key>IORegistryEntryChildren</key>
+    <array>
+      <dict>
+        <key>IOObjectClass</key><string>IOMedia</string>
+        <key>BSD Name</key><string>disk7</string>
+      </dict>
+    </array>
+  </dict>
+</array>
+</plist>

@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "default": {
+    "automation": "guided-review",
+    "generic_filler": "review-official-guide",
+    "forbid_nearest_firmware": true,
+    "jailbreak_markers": [],
+    "jailbreak_user_log": false,
+    "separate_approval": []
+  },
+  "methods": {
+    "WinterBreak2": {
+      "automation": "guided-browser",
+      "generic_filler": "required-by-guide",
+      "forbid_nearest_firmware": true,
+      "jailbreak_markers": ["documents/JAILBROKEN.txt"],
+      "jailbreak_user_log": true,
+      "separate_approval": []
+    },
+    "Véra": {
+      "automation": "guided-browser",
+      "generic_filler": "required-by-guide",
+      "forbid_nearest_firmware": true,
+      "separate_approval": []
+    },
+    "SpiderCat": {
+      "automation": "guided-assets-or-browser",
+      "generic_filler": "required-by-guide",
+      "forbid_nearest_firmware": true,
+      "separate_approval": []
+    },
+    "Nosebleed": {
+      "automation": "guided-assets-and-browser",
+      "generic_filler": "required-by-guide",
+      "forbid_nearest_firmware": true,
+      "separate_approval": []
+    },
+    "Sanctuary": {
+      "automation": "guided-browser",
+      "generic_filler": "required-by-guide",
+      "forbid_nearest_firmware": true,
+      "separate_approval": []
+    },
+    "WinterBreak": {
+      "automation": "guided-assets-and-store",
+      "generic_filler": "required-by-guide",
+      "forbid_nearest_firmware": true,
+      "jailbreak_markers": ["documents/JAILBROKEN.txt"],
+      "jailbreak_user_log": true,
+      "separate_approval": []
+    },
+    "SpringBreak": {
+      "automation": "official-helper",
+      "generic_filler": "forbidden",
+      "forbid_nearest_firmware": true,
+      "separate_approval": []
+    },
+    "AdBreak": {
+      "automation": "guided-assets",
+      "generic_filler": "required-by-guide",
+      "forbid_nearest_firmware": true,
+      "separate_approval": [
+        "amazon-region",
+        "payment-method",
+        "ad-state",
+        "factory-reset"
+      ]
+    },
+    "NiLuJe K2/DX/DXG/K3 Jailbreak": {
+      "automation": "guided-update-package",
+      "generic_filler": "not-required",
+      "forbid_nearest_firmware": true,
+      "separate_approval": []
+    },
+    "NiLuJe K4 Jailbreak": {
+      "automation": "guided-update-package",
+      "generic_filler": "not-required",
+      "forbid_nearest_firmware": true,
+      "separate_approval": []
+    },
+    "NiLuJe K5 Jailbreak": {
+      "automation": "guided-update-package",
+      "generic_filler": "not-required",
+      "forbid_nearest_firmware": true,
+      "separate_approval": []
+    },
+    "LEGACY": {
+      "automation": "guided-review",
+      "generic_filler": "review-official-guide",
+      "forbid_nearest_firmware": true,
+      "separate_approval": []
+    },
+    "Android Jailbreak Methods": {
+      "automation": "external-guide-review",
+      "generic_filler": "not-applicable",
+      "forbid_nearest_firmware": true,
+      "separate_approval": []
+    }
+  }
+}

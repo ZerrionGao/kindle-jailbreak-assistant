@@ -1,0 +1,101 @@
+name: Bug report / 缺陷报告
+description: Report a reproducible KJA failure without exposing private device data.
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a problem. Keep the Kindle offline if the current route requires it, and stop before another write if the device state is uncertain.
+
+        感谢反馈。若当前路线要求离线，请保持 Kindle 离线；设备状态无法确认时，不要继续下一次写入。
+
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy and safety / 隐私与安全
+      options:
+        - label: I removed full serial numbers, account data, QR-login data, cookies, signed URLs, and session archives. / 我已移除完整序列号、账户数据、二维码登录数据、Cookie、签名地址和会话归档。
+          required: true
+        - label: I will not run another device write merely to reproduce this report. / 我不会为了复现报告而额外写入设备。
+          required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: KJA version or commit / KJA 版本或提交
+      placeholder: v0.1.0 or commit SHA
+    validations:
+      required: true
+
+  - type: input
+    id: host
+    attributes:
+      label: Host and Python / 电脑系统与 Python
+      placeholder: macOS 27 arm64, Python 3.11.15
+    validations:
+      required: true
+
+  - type: input
+    id: device
+    attributes:
+      label: Kindle model, redacted code, and firmware / Kindle 型号、脱敏设备码与固件
+      description: Never enter the full serial number. / 不要填写完整序列号。
+      placeholder: Paperwhite 3, code 0G1, firmware 5.16.2.1.1
+    validations:
+      required: true
+
+  - type: dropdown
+    id: transport
+    attributes:
+      label: Transport / 传输方式
+      options:
+        - USB mass storage
+        - Windows MTP
+        - Linux GIO/GVFS MTP
+        - macOS MTP or unavailable
+        - Unknown / 未知
+    validations:
+      required: true
+
+  - type: input
+    id: command
+    attributes:
+      label: Subcommand and exit code / 子命令与退出码
+      placeholder: route, exit 21
+    validations:
+      required: true
+
+  - type: dropdown
+    id: modified
+    attributes:
+      label: Was the device modified? / 设备是否已修改
+      options:
+        - No / 没有
+        - Yes, files were created or copied / 是，创建或复制过文件
+        - Unknown / 无法确认
+    validations:
+      required: true
+
+  - type: textarea
+    id: observed
+    attributes:
+      label: What happened / 发生了什么
+      description: Include the visible Kindle result and sanitized KJA output.
+      placeholder: Describe the last confirmed stage, the one action taken, and what appeared on screen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected safe behavior / 预期的安全行为
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Smallest safe reproduction / 最小安全复现
+      description: Prefer fixtures, dry-run, or read-only commands. / 优先使用模拟数据、预演或只读命令。
+    validations:
+      required: true

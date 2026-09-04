@@ -1,0 +1,94 @@
+[
+  {
+    "name": "WinterBreak2",
+    "url": "/jailbreaking/WinterBreak2/",
+    "registration": false,
+    "ads": false,
+    "models": [
+      "PW3"
+    ],
+    "firmwares": [
+      {
+        "models": [
+          "all"
+        ],
+        "min": "5.6.1.1",
+        "max": "5.16.3",
+        "outliers": {
+          "accepted": [
+            "5.16.5"
+          ],
+          "denied": [
+            "5.16.2.1.2"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "WinterBreak",
+    "url": "/jailbreaking/WinterBreak/",
+    "registration": true,
+    "ads": false,
+    "models": [
+      "PW3"
+    ],
+    "firmwares": [
+      {
+        "models": [
+          "all"
+        ],
+        "min": "5.6.1.1",
+        "max": "5.16.3",
+        "outliers": {
+          "accepted": [],
+          "denied": []
+        }
+      }
+    ]
+  },
+  {
+    "name": "SpringBreak",
+    "url": "/jailbreaking/SpringBreak/",
+    "registration": true,
+    "ads": false,
+    "models": [
+      "PW3"
+    ],
+    "firmwares": [
+      {
+        "models": [
+          "PW3"
+        ],
+        "min": "5.16.4",
+        "max": "5.16.4",
+        "outliers": {
+          "accepted": [],
+          "denied": []
+        }
+      }
+    ]
+  },
+  {
+    "name": "AdBreak",
+    "url": "/jailbreaking/AdBreak/",
+    "registration": true,
+    "ads": true,
+    "models": [
+      "PW3"
+    ],
+    "firmwares": [
+      {
+        "models": [
+          "all"
+        ],
+        "min": "5.18.1",
+        "max": "5.18.5",
+        "outliers": {
+          "accepted": [],
+          "denied": []
+        }
+      }
+    ]
+  }
+]

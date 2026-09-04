@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report / 安全问题
+    url: https://github.com/ZerrionGao/kindle-jailbreak-assistant/security/advisories/new
+    about: Report vulnerabilities privately. / 请私下报告漏洞。
+  - name: Current KindleModding routes
+    url: https://kindlemodding.org/
+    about: Check the current community-maintained jailbreak information.
+  - name: KOReader Kindle installation
+    url: https://github.com/koreader/koreader/wiki/Installation-on-Kindle-devices
+    about: Check the current official KOReader installation guide.

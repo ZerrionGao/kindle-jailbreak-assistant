@@ -1,0 +1,86 @@
+name: Compatibility report / 兼容性报告
+description: Share a real or simulated host, transport, and Kindle result.
+title: "[Compatibility] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Both successful and failed results are useful. Label simulations clearly and never post a full serial number.
+
+        成功和失败结果都有价值。模拟结果请明确标注，且不要公开完整序列号。
+
+  - type: dropdown
+    id: evidence
+    attributes:
+      label: Evidence type / 证据类型
+      options:
+        - Physical Kindle / 真实 Kindle
+        - Simulated device or fixture / 模拟设备或测试数据
+        - CI only / 仅 CI
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: KJA version or commit / KJA 版本或提交
+      placeholder: v0.1.0 or commit SHA
+    validations:
+      required: true
+
+  - type: input
+    id: host
+    attributes:
+      label: Host and Python / 电脑系统与 Python
+      placeholder: Windows 11, Python 3.13
+    validations:
+      required: true
+
+  - type: input
+    id: device
+    attributes:
+      label: Kindle model, redacted code, and exact firmware / Kindle 型号、脱敏设备码与完整固件
+      description: Never enter the full serial number. / 不要填写完整序列号。
+    validations:
+      required: true
+
+  - type: dropdown
+    id: transport
+    attributes:
+      label: Transport / 传输方式
+      options:
+        - USB mass storage
+        - Windows MTP
+        - Linux GIO/GVFS MTP
+        - macOS MTP or unavailable
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: stages
+    attributes:
+      label: Verified stages / 已验证阶段
+      options:
+        - label: Read-only probe / 只读探测
+        - label: Current route review / 当次路线复核
+        - label: Verified backup / 备份校验
+        - label: Payload staging / 载荷暂存
+        - label: Method-specific jailbreak evidence / 方法专属越狱证据
+        - label: Visible KOReader launch and local book open / 进入 KOReader 并打开本地书
+        - label: Exact cleanup / 精确清理
+
+  - type: textarea
+    id: result
+    attributes:
+      label: Result and sanitized evidence / 结果与脱敏证据
+      description: State the last successful stage and the visible device result.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy / 隐私
+      options:
+        - label: I removed full serial numbers, account data, QR data, cookies, signed URLs, and session archives. / 我已移除完整序列号、账户数据、二维码数据、Cookie、签名地址和会话归档。
+          required: true

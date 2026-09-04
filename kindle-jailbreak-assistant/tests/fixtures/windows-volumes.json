@@ -1,0 +1,35 @@
+[
+  {
+    "DeviceID": "C:",
+    "VolumeName": "System",
+    "DriveType": 3,
+    "FreeSpace": 555000000,
+    "IsSystem": true,
+    "DiskModel": "Internal SSD",
+    "PNPDeviceID": "SCSI\\DISK&VEN_APPLE&PROD_SSD\\SYSTEM123",
+    "SerialNumber": "SYSTEM123",
+    "ReadOnly": false
+  },
+  {
+    "DeviceID": "E:",
+    "VolumeName": "Kindle",
+    "DriveType": 2,
+    "FreeSpace": 777000000,
+    "IsSystem": false,
+    "DiskModel": "Kindle Internal Storage USB Device",
+    "PNPDeviceID": "USBSTOR\\DISK&VEN_KINDLE&PROD_INTERNAL_STORAGE\\B0D4A1C200000001&0",
+    "SerialNumber": "B0D4A1C200000001",
+    "ReadOnly": true
+  },
+  {
+    "DeviceID": "F:",
+    "VolumeName": "Kindle",
+    "DriveType": 2,
+    "FreeSpace": 333000000,
+    "IsSystem": false,
+    "DiskModel": null,
+    "PNPDeviceID": null,
+    "SerialNumber": null,
+    "ReadOnly": null
+  }
+]

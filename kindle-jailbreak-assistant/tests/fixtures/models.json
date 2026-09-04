@@ -1,0 +1,22 @@
+[
+  {
+    "release_year": 2015,
+    "release_firmware": "5.6.5",
+    "amazon_name": "Kindle Paperwhite 3",
+    "last_firmware": "5.16.2.1.1",
+    "platform": "Muscat",
+    "board": "Muscat",
+    "jailbreak": "WinterBreak2",
+    "generation_nickname": "PW3",
+    "nicknames": [
+      "PW3"
+    ],
+    "serial_version": 1,
+    "device_codes": {
+      "0KB": {
+        "kindletool_name": "KindlePaperWhite3WiFi",
+        "amazon_model_id": "A0QO6ZQY0K0VQ"
+      }
+    }
+  }
+]

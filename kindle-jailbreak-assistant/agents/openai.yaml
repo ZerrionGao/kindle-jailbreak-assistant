@@ -1,0 +1,4 @@
+interface:
+  display_name: "KJA · Kindle 越狱助手"
+  short_description: "安全识别并引导 Kindle 越狱与 KOReader 安装"
+  default_prompt: "请使用 $kindle-jailbreak-assistant 先以只读方式识别已连接的 Kindle，并说明安全下一步。"
