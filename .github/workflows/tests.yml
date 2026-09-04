@@ -56,10 +56,22 @@ jobs:
       - name: Run offline self-test
         run: python kindle-jailbreak-assistant/scripts/kindle_jailbreak.py --json self-test
 
-      - name: Run test suite
+      - name: Run full POSIX test suite
+        if: runner.os != 'Windows'
         env:
           PYTHONPATH: kindle-jailbreak-assistant/scripts
         run: python -m unittest discover -s kindle-jailbreak-assistant/tests -v
+
+      - name: Run Windows test suite
+        if: runner.os == 'Windows'
+        working-directory: kindle-jailbreak-assistant/tests
+        env:
+          PYTHONPATH: ../scripts
+        run: |
+          python -m unittest -v test_models_session test_routing test_post_jailbreak
+          python -m unittest -v test_device.WindowsMtpFixtureTest test_device.ProductionFixtureIsolationTest test_device.DeviceProbeTest.test_windows_combines_removable_volume_and_mtp_devices
+          python -m unittest discover -s . -p "test_storage.py" -v -k windows
+          python -m unittest -v test_cli.CLITest.test_self_test_uses_windows_policy_without_treating_temp_as_volume test_cli.CLITest.test_json_writer_falls_back_when_stdout_cannot_encode_chinese
 
       - name: Check Linux adapter syntax
         if: runner.os != 'Windows'
