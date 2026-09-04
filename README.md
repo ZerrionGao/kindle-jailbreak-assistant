@@ -4,7 +4,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB.svg)](https://www.python.org/)
 
-**Old Kindle. New chapter. Preferably no magic smoke.**
+**Stop letting your old Kindle gather dust. One sentence to jailbreak it and
+bring it back to life.**
 
 English | [简体中文](README.zh-CN.md)
 

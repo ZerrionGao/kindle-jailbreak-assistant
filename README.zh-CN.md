@@ -4,7 +4,7 @@
 [![许可证：MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB.svg)](https://www.python.org/)
 
-**旧 Kindle，新篇章。最好别顺便放出魔法烟雾。**
+**别再让你的老 Kindle 吃灰了，一句话搞定越狱，让老 Kindle 焕发新生！**
 
 [English](README.md) | 简体中文
 
