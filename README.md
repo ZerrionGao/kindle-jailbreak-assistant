@@ -158,9 +158,8 @@ bash -n kindle-jailbreak-assistant/scripts/kindle_mtp_linux.sh
 The initial public release contains 214 passing automated tests on the author's
 macOS/Python 3.11 environment. Five Windows PowerShell tests are skipped locally
 when `pwsh` is unavailable. GitHub Actions is configured to run the suite on
-Linux, macOS, and Windows; its first public result remains pending until the
-repository is published. Simulation and CI are not substitutes for testing
-every physical Kindle.
+Linux and macOS, plus the cross-platform and Windows-specific suites on Windows.
+Simulation and CI are not substitutes for testing every physical Kindle.
 
 ## Repository map
 

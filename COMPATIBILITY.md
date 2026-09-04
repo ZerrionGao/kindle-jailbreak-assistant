@@ -84,11 +84,13 @@ checkbox.
 ## Python versions / Python 版本
 
 The code requires Python 3.10 or later. The public CI matrix targets Python 3.10
-and 3.13 across Linux, macOS, and Windows. The author's fresh local evidence is
-Python 3.11.15 on macOS arm64.
+and 3.13: Linux and macOS run the full suite, while Windows runs the
+cross-platform core and Windows-specific transport, volume, and output tests.
+The author's fresh local evidence is Python 3.11.15 on macOS arm64.
 
-代码要求 Python 3.10 或更高版本。公开 CI 矩阵覆盖 Linux、macOS、Windows 上的
-Python 3.10 和 3.13；作者本次新鲜本地证据来自 macOS arm64 上的 Python 3.11.15。
+代码要求 Python 3.10 或更高版本。公开 CI 矩阵覆盖 Python 3.10 和 3.13：Linux
+与 macOS 运行完整套件，Windows 运行跨平台核心以及 Windows 专属传输、卷与输出
+测试。作者本次新鲜本地证据来自 macOS arm64 上的 Python 3.11.15。
 
 ## How to report a useful compatibility result / 如何提交有效兼容性报告
 
