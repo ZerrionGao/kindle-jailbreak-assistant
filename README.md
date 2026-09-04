@@ -159,7 +159,8 @@ The initial public release contains 215 passing automated tests on the author's
 macOS/Python 3.11 environment. Five Windows PowerShell tests are skipped locally
 when `pwsh` is unavailable. GitHub Actions is configured to run the suite on
 Linux and macOS, plus the cross-platform and Windows-specific suites on Windows.
-Simulation and CI are not substitutes for testing every physical Kindle.
+The published Python 3.10/3.13 matrix is green on all three hosts. Simulation
+and CI are not substitutes for testing every physical Kindle.
 
 ## Repository map
 

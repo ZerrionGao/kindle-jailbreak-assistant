@@ -27,21 +27,21 @@ KJA 在运行时读取当前上游数据。本页只说明仓库自身实际验�
 
 | Host / 电脑系统 | Transport / 传输 | Repository evidence / 仓库证据 | Current status / 当前状态 |
 |---|---|---|---|
-| macOS | USB mass storage | `diskutil`/`ioreg` parsing, identity binding, safe-path and storage tests; full suite passes on macOS arm64/Python 3.11 | Beta; physical-device reports welcome |
+| macOS | USB mass storage | `diskutil`/`ioreg` parsing, identity binding, safe-path and storage tests; full suite passes on Python 3.10/3.13 CI and macOS arm64/Python 3.11 locally | Beta; physical-device reports welcome |
 | macOS | MTP | Detection and safe-stop behavior | No bundled write path; requires a safe pre-existing tool |
-| Linux | USB mass storage | Mount/`udevadm` fixtures and storage integration tests | Simulated; physical validation pending |
-| Linux | GIO/GVFS MTP | Adapter protocol and end-to-end simulated CLI flow | Simulated; physical validation pending |
-| Windows | USB mass storage | PowerShell volume fixtures and Windows-specific storage safety tests | Simulated; physical validation pending |
-| Windows | MTP | Portable-device adapter, duplicate-name, stable-identity, copy completion, and simulated CLI tests | CI-capable; physical validation pending |
+| Linux | USB mass storage | Mount/`udevadm` fixtures and full Python 3.10/3.13 CI suite | CI verified; physical validation pending |
+| Linux | GIO/GVFS MTP | Adapter protocol, end-to-end simulated CLI flow, and full Linux CI suite | CI verified; physical validation pending |
+| Windows | USB mass storage | PowerShell volume fixtures, Windows-specific storage safety tests, and Python 3.10/3.13 CI | CI verified; physical validation pending |
+| Windows | MTP | Portable-device adapter, duplicate-name, stable-identity, copy completion, and real `pwsh` fixture runs on Windows CI | CI verified; physical validation pending |
 
 The local 2026-09-04 release audit ran 215 tests successfully. Five Windows
 PowerShell fixture tests were skipped because `pwsh` was not installed on the
 author's macOS host. The CI matrix is intended to run those tests on Windows;
-this statement should be updated after the first public workflow completes.
+the first complete public matrix passed all six jobs on 2026-09-04.
 
 2026-09-04 的本地发布审计共通过 215 项测试。由于作者的 macOS 主机没有安装
 `pwsh`，其中 5 项 Windows PowerShell 测试被跳过。CI 矩阵会在 Windows 上运行
-这些测试；首次公开工作流完成后应更新本段状态。
+这些测试；2026-09-04 的首个完整公开矩阵六项任务已全部通过。
 
 ## Kindle model and firmware routing / Kindle 型号与固件路由
 
