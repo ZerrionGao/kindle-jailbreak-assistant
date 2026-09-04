@@ -16,11 +16,14 @@ from unittest import mock
 
 from kindle_jailbreak import (
     CLIError,
+    EventWriter,
     _bound_device,
     _download_payload,
     _payload_url_allowed,
     _device_probe,
     _probe_one,
+    _self_test_device_probe,
+    _self_test_safe_paths,
     _storage_exit_code,
     _test_storage_limits,
     main,
@@ -2232,6 +2235,37 @@ class CLITest(unittest.TestCase):
         self.assertIs(events["safe_paths"].get("protected_root_rejected"), True)
         self.assertIs(events["safe_paths"].get("traversal_rejected"), True)
         self.assertIs(events["session_atomicity"].get("failed_replace_preserved"), True)
+
+    def test_self_test_uses_windows_policy_without_treating_temp_as_volume(self):
+        with (
+            mock.patch("kindle_jailbreak.platform.system", return_value="Windows"),
+            mock.patch("kindle_jailbreak_lib.storage_safety.sys.platform", "win32"),
+            mock.patch.dict(os.environ, {"SystemRoot": r"C:\\Windows"}),
+        ):
+            probe = _self_test_device_probe()
+            paths = _self_test_safe_paths()
+
+        self.assertIs(probe["serial_redacted"], True)
+        self.assertIs(probe["safe_root_checked"], True)
+        self.assertIs(paths["protected_root_rejected"], True)
+        self.assertIs(paths["traversal_rejected"], True)
+
+    def test_json_writer_falls_back_when_stdout_cannot_encode_chinese(self):
+        raw = io.BytesIO()
+        output = io.TextIOWrapper(raw, encoding="cp1252")
+
+        with contextlib.redirect_stdout(output):
+            EventWriter(json_mode=True).emit(
+                "self_test",
+                ok=False,
+                message="自检失败：device_probe",
+            )
+        output.flush()
+        rendered = raw.getvalue().decode("cp1252")
+
+        self.assertIn("KJA_EVENT ", rendered)
+        payload = json.loads(rendered.removeprefix("KJA_EVENT ").strip())
+        self.assertEqual(payload["message"], "自检失败：device_probe")
 
 
 if __name__ == "__main__":

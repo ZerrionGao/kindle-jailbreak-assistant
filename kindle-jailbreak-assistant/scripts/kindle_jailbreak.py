@@ -16,6 +16,7 @@ import os
 import platform
 import re
 import subprocess
+import sys
 import tempfile
 import urllib.request
 from collections.abc import Callable
@@ -117,11 +118,22 @@ class EventWriter:
     def emit(self, event: str, **fields: object) -> None:
         payload = {"event": event, **fields}
         if self.json_mode:
-            print(
-                "KJA_EVENT "
-                + json.dumps(payload, ensure_ascii=False, separators=(",", ":")),
-                flush=True,
+            rendered = "KJA_EVENT " + json.dumps(
+                payload,
+                ensure_ascii=False,
+                separators=(",", ":"),
             )
+            encoding = getattr(sys.stdout, "encoding", None)
+            if isinstance(encoding, str):
+                try:
+                    rendered.encode(encoding)
+                except (LookupError, UnicodeEncodeError):
+                    rendered = "KJA_EVENT " + json.dumps(
+                        payload,
+                        ensure_ascii=True,
+                        separators=(",", ":"),
+                    )
+            print(rendered, flush=True)
             return
         message = fields.get("message")
         print(message if isinstance(message, str) else event, flush=True)
@@ -2455,7 +2467,20 @@ def _self_test_device_probe() -> dict[str, object]:
             "KJA_TEST_MODE": "1",
             "KJA_TEST_DEVICE_FIXTURE": str(fixture),
         }):
-            device = _probe_one(args)
+            if platform.system() == "Windows":
+                device = _fixture_device(args)
+                if device is None:
+                    raise AssertionError("Windows device fixture was not parsed")
+                from kindle_jailbreak_lib.storage_windows import volume_is_safe
+
+                if (
+                    not volume_is_safe("FAT32", 0)
+                    or volume_is_safe("NTFS", 0)
+                    or volume_is_safe("FAT32", 0x80)
+                ):
+                    raise AssertionError("Windows safe-volume policy failed")
+            else:
+                device = _probe_one(args)
         public = device.public_dict()
         if serial in json.dumps(public) or public.get("serial_suffix") != "0001":
             raise AssertionError("device redaction failed")
@@ -2535,21 +2560,30 @@ def _self_test_routing_schema() -> dict[str, object]:
 
 
 def _self_test_safe_paths() -> dict[str, object]:
+    from kindle_jailbreak_lib.storage_payload import _safe_relative_path
+
     with tempfile.TemporaryDirectory() as temporary:
         kindle = Path(temporary) / "kindle"
         (kindle / "documents").mkdir(parents=True)
-        if assert_safe_root(kindle) != kindle.resolve(strict=True):
-            raise AssertionError("safe root mismatch")
-        rejected: list[bool] = []
-        for unsafe in (Path("/"), kindle / ".."):
-            try:
-                assert_safe_root(unsafe)
-            except StorageError:
-                rejected.append(True)
-            else:
-                rejected.append(False)
-        if rejected != [True, True]:
-            raise AssertionError("unsafe root accepted")
+        if platform.system() == "Windows":
+            system_root = Path(os.environ.get("SystemRoot", r"C:\\Windows")).anchor
+            protected = Path(system_root or r"C:\\")
+        else:
+            if assert_safe_root(kindle) != kindle.resolve(strict=True):
+                raise AssertionError("safe root mismatch")
+            protected = Path("/")
+        try:
+            assert_safe_root(protected)
+        except StorageError:
+            pass
+        else:
+            raise AssertionError("protected root accepted")
+        try:
+            _safe_relative_path("../escape")
+        except StorageError:
+            pass
+        else:
+            raise AssertionError("path traversal accepted")
     return {"protected_root_rejected": True, "traversal_rejected": True}
 
 
